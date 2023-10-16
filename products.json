@@ -1,0 +1,92 @@
+[
+    {
+      "id": 1,
+      "title": "Producto 1",
+      "description": "Este es el primer producto de ejemplo",
+      "price": 19.99,
+      "thumbnail": "img/product1.jpg",
+      "code": "ABC123",
+      "stock": 10
+    },
+    {
+      "id": 2,
+      "title": "Producto 2",
+      "description": "Este es el segundo producto de ejemplo",
+      "price": 29.99,
+      "thumbnail": "img/product2.jpg",
+      "code": "DEF456",
+      "stock": 15
+    },
+    {
+      "id": 3,
+      "title": "Producto 3",
+      "description": "Este es el tercer producto de ejemplo",
+      "price": 39.99,
+      "thumbnail": "img/product3.jpg",
+      "code": "GHI789",
+      "stock": 20
+    },
+    {
+      "id": 4,
+      "title": "Producto 4",
+      "description": "Este es el cuarto producto de ejemplo",
+      "price": 49.99,
+      "thumbnail": "img/product4.jpg",
+      "code": "JKL012",
+      "stock": 8
+    },
+    {
+      "id": 5,
+      "title": "Producto 5",
+      "description": "Este es el quinto producto de ejemplo",
+      "price": 59.99,
+      "thumbnail": "img/product5.jpg",
+      "code": "MNO345",
+      "stock": 12
+    },
+    {
+      "id": 6,
+      "title": "Producto 6",
+      "description": "Este es el sexto producto de ejemplo",
+      "price": 69.99,
+      "thumbnail": "img/product6.jpg",
+      "code": "PQR678",
+      "stock": 25
+    },
+    {
+      "id": 7,
+      "title": "Producto 7",
+      "description": "Este es el séptimo producto de ejemplo",
+      "price": 79.99,
+      "thumbnail": "img/product7.jpg",
+      "code": "STU901",
+      "stock": 5
+    },
+    {
+      "id": 8,
+      "title": "Producto 8",
+      "description": "Este es el octavo producto de ejemplo",
+      "price": 89.99,
+      "thumbnail": "img/product8.jpg",
+      "code": "VWX234",
+      "stock": 18
+    },
+    {
+      "id": 9,
+      "title": "Producto 9",
+      "description": "Este es el noveno producto de ejemplo",
+      "price": 99.99,
+      "thumbnail": "img/product9.jpg",
+      "code": "YZA567",
+      "stock": 14
+    },
+    {
+      "id": 10,
+      "title": "Producto 10",
+      "description": "Este es el décimo producto de ejemplo",
+      "price": 109.99,
+      "thumbnail": "img/product10.jpg",
+      "code": "BCD890",
+      "stock": 30
+    }
+]  
