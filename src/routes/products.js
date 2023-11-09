@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const fs = require('fs').promises;
+import { promises as fsPromises } from 'fs';
+const { readFile, writeFile } = fsPromises;
 
 function generateProductId(products) {
   if (!products || products.length === 0) {
@@ -18,7 +19,7 @@ function generateProductId(products) {
 // Ruta para listar todos los productos
 router.get('/', async (req, res) => {
   try {
-    const products = await fs.readFile('products.json', 'utf-8');
+    const products = await readFile('products.json', 'utf-8');
     const parsedProducts = JSON.parse(products);
     let limitedProducts = parsedProducts;
 
@@ -39,7 +40,7 @@ router.get('/:pid', async (req, res) => {
   const productId = req.params.pid.toString(); // Convierte el parámetro pid en cadena
 
   try {
-    const products = await fs.readFile('products.json', 'utf-8');
+    const products = await readFile('products.json', 'utf-8');
     const parsedProducts = JSON.parse(products);
     const product = parsedProducts.find((product) => product.id.toString() === productId);
 
@@ -67,13 +68,20 @@ router.post('/', async (req, res) => {
     newProduct.category
   ) {
     try {
-      const products = await fs.readFile('products.json', 'utf-8');
+      const products = await readFile('products.json', 'utf-8');
       const parsedProducts = JSON.parse(products);
       newProduct.id = generateProductId(parsedProducts); // Genera un nuevo ID
       newProduct.status = newProduct.status || true; // Valor por defecto para "status"
 
       parsedProducts.push(newProduct);
-      await fs.writeFile('products.json', JSON.stringify(parsedProducts, null, 2));
+
+      // Guarda el producto en products.json
+      await writeFile('products.json', JSON.stringify(parsedProducts, null, 2));
+
+      // Emitir el evento 'productAdded' con la información del producto
+      const addedProduct = { title: newProduct.title, description: newProduct.description };
+      io.emit('productAdded', addedProduct);
+
       res.json(newProduct);
     } catch (error) {
       res.status(500).json({ error: 'Error al agregar el producto.' });
@@ -89,13 +97,13 @@ router.put('/:pid', async (req, res) => {
   const updatedProduct = req.body;
 
   try {
-    const products = await fs.readFile('products.json', 'utf-8');
+    const products = await readFile('products.json', 'utf-8');
     const parsedProducts = JSON.parse(products);
     const index = parsedProducts.findIndex((product) => product.id === productId);
 
     if (index !== -1) {
       parsedProducts[index] = { ...parsedProducts[index], ...updatedProduct };
-      await fs.writeFile('products.json', JSON.stringify(parsedProducts, null, 2));
+      await writeFile('products.json', JSON.stringify(parsedProducts, null, 2));
       res.json(parsedProducts[index]);
     } else {
       res.status(404).json({ error: 'Producto no encontrado.' });
@@ -110,13 +118,13 @@ router.delete('/:pid', async (req, res) => {
   const productId = req.params.pid;
 
   try {
-    const products = await fs.readFile('products.json', 'utf-8');
+    const products = await readFile('products.json', 'utf-8');
     const parsedProducts = JSON.parse(products);
     const index = parsedProducts.findIndex((product) => product.id === productId);
 
     if (index !== -1) {
       const deletedProduct = parsedProducts.splice(index, 1)[0];
-      await fs.writeFile('products.json', JSON.stringify(parsedProducts, null, 2));
+      await writeFile('products.json', JSON.stringify(parsedProducts, null, 2));
       res.json(deletedProduct);
     } else {
       res.status(404).json({ error: 'Producto no encontrado.' });
@@ -126,4 +134,4 @@ router.delete('/:pid', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

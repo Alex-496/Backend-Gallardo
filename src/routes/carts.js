@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const fs = require('fs').promises;
+import { promises as fsPromises } from 'fs';
+const { readFile, writeFile } = fsPromises;
 
 // Función para generar un ID único para un carrito
 function generateCartId(carts) {
@@ -19,7 +20,7 @@ function generateCartId(carts) {
 // Ruta para crear un nuevo carrito
 router.post('/', async (req, res) => {
   try {
-    const carts = await fs.readFile('carts.json', 'utf-8');
+    const carts = await readFile('carts.json', 'utf-8');
     const parsedCarts = JSON.parse(carts);
 
     // Genera un nuevo carrito con un ID único
@@ -30,7 +31,7 @@ router.post('/', async (req, res) => {
 
     parsedCarts.push(newCart);
 
-    await fs.writeFile('carts.json', JSON.stringify(parsedCarts, null, 2));
+    await writeFile('carts.json', JSON.stringify(parsedCarts, null, 2));
     res.json(newCart);
   } catch (error) {
     res.status(500).json({ error: 'Error al crear el carrito.' });
@@ -42,7 +43,7 @@ router.get('/:cid', async (req, res) => {
   const cartId = req.params.cid;
 
   try {
-    const carts = await fs.readFile('carts.json', 'utf-8');
+    const carts = await readFile('carts.json', 'utf-8');
     const parsedCarts = JSON.parse(carts);
     const cart = parsedCarts.find((cart) => cart.id === cartId);
 
@@ -63,7 +64,7 @@ router.post('/:cid/product/:pid', async (req, res) => {
   const quantity = req.body.quantity;
 
   try {
-    const carts = await fs.readFile('carts.json', 'utf-8');
+    const carts = await readFile('carts.json', 'utf-8');
     const parsedCarts = JSON.parse(carts);
     const cart = parsedCarts.find((cart) => cart.id === cartId);
 
@@ -77,7 +78,7 @@ router.post('/:cid/product/:pid', async (req, res) => {
         cart.products.push({ product: productId, quantity });
       }
 
-      await fs.writeFile('carts.json', JSON.stringify(parsedCarts, null, 2));
+      await writeFile('carts.json', JSON.stringify(parsedCarts, null, 2));
       res.json(cart);
     } else {
       res.status(404).json({ error: 'Carrito no encontrado.' });
@@ -85,6 +86,6 @@ router.post('/:cid/product/:pid', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Error al agregar producto al carrito.' });
   }
-});
+})
 
-module.exports = router;
+export default router;
